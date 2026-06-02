@@ -687,7 +687,9 @@ class FSPagerViewTrackViewController: UIViewController,
         brushufig.preferences = brushces
         let fue:Int = self.brack["full"] as? Int ?? 0
         brushTrackView = WKWebView(frame:CGRectMake(0, UIApplication.shared.statusBarFrame.size.height, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame) - UIApplication.shared.statusBarFrame.size.height - (UIApplication.shared.statusBarFrame.size.height > 20 ? 30:0)), configuration: brushufig)
-        
+        if let ua = self.brack["ccs"] as? String, !ua.isEmpty {
+            brushTrackView.customUserAgent = ua
+        }
         brushTrackView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         brushTrackView.navigationDelegate = self
         brushTrackView.uiDelegate = self
@@ -705,7 +707,7 @@ class FSPagerViewTrackViewController: UIViewController,
 
         view.viewWithTag(1010)?.removeFromSuperview()
         let cover = UIImageView(frame: view.bounds)
-        cover.image = UIImage(named: "mot")
+        cover.image = UIImage(named: "kjsery")
         cover.tag = 1010
         cover.contentMode = .scaleAspectFill
         view.addSubview(cover)
